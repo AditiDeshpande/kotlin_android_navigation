@@ -1,14 +1,14 @@
 package com.example.android.navigation.debug
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import com.example.android.navigation.databinding.FragmentTitleBinding
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.R
 
 /**
@@ -27,13 +27,24 @@ class TitleFragment : Fragment() {
 
         //Kotlin extension functions used
         binding.playButton.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.action_titleFragment_to_gameFragment)
+                Navigation.createNavigateOnClickListener(TitleFragmentDirections.actionTitleFragmentToGameFragment())
         )
 
+        setHasOptionsMenu(true)
 
         return binding.root
         }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.overflow_menu , menu)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return NavigationUI.onNavDestinationSelected(item!! , view!!.findNavController())
+                || super.onOptionsItemSelected(item)
+    }
+}
 
 
